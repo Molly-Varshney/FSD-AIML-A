@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: center;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+        button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipes</h1>
+    <table id="recipeTable">
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Rating</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+    <script>
+        fetch('https://dummyjson.com/recipes')
+            .then(res => res.json())
+            .then(data => {
+                const tableBody = document.querySelector('#recipeTable tbody');
+                data.recipes.forEach((recipe, idx) => {
+                    // Dummy price calculation (since API doesn't provide price)
+                    const price = (recipe.rating * 10 + 50).toFixed(2);
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${idx + 1}</td>
+                        <td>${recipe.name}</td>
+                        <td><img src="${recipe.image}" alt="${recipe.name}"></td>
+                        <td>${recipe.rating}</td>
+                        <td>₹${price}</td>
+                        <td><button onclick="alert('Added ${recipe.name} to cart!')">Add to Cart</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>
